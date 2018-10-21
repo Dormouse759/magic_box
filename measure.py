@@ -1,13 +1,12 @@
 import subprocess
 import mylibrary
-import datetime
 import os
 
 
 sub_dir = mylibrary.init_var()
 file_cnt = 1
 
-measure_proc = subprocess.Popen(["/fs1/fpga_cnt/ttmeas_v6", "-vd", "-c 2"], stdout = subprocess.PIPE)
+measure_proc = subprocess.Popen(["/fs1/fpga_cnt/ttmeas_v6", "-vd", "-c 2"], stdout=subprocess.PIPE)
 path = os.path.join(os.getcwd(), "measures", str(sub_dir))
 os.mkdir(path)
 if not os.path.exists(path):
@@ -30,7 +29,9 @@ while True:
 			date = timestamp.split(".")[0]
 			file.write("[ " + date + ", " + value + "],\n")
 			meas_cnt += 1
+
 	file.write("]")
 	file_cnt += 1
+
 measure_proc.terminate()
 file.close()

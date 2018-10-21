@@ -24,11 +24,6 @@ def index():
 def get_index():
 	return render_template('index.html', time=mylibrary.get_actual_time())
 
-
-
-
-
-
 @app.route('/mereni')
 def get_mereni():
 	global measure_proc
@@ -59,8 +54,6 @@ def get_mereni_button():
 		measure_proc.terminate()
 		measure_proc = None
 		return render_template('mereni.html', text=measure_start_date, button='Start')
-
-
 
 @app.route('/measures')
 @app.route('/measures/<sub_dir>')
