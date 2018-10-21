@@ -8,6 +8,7 @@ import mylibrary
 
 #Variable
 measure_proc = None
+measure_start_date = "Neprobiha zadne mereni "
 
 # -> Start
 app = Flask(__name__)
@@ -23,45 +24,43 @@ def index():
 def get_index():
 	return render_template('index.html', time=mylibrary.get_actual_time())
 
-@app.route('/mereni_start')
-def get_mereni_start():
+
+
+
+
+
+@app.route('/mereni')
+def get_mereni():
 	global measure_proc
+	global measure_start_date
+
+	if measure_proc is None:
+		return render_template('mereni.html', text=measure_start_date, button='Start')
+
+	return render_template('mereni.html', text=measure_start_date, button='Stop')
+
+@app.route('/mereni', methods=['POST'])
+def get_mereni_button():
+	global measure_proc
+	global measure_start_date
 	
 	if measure_proc is None:
-		return render_template('mereni_start.html', text='Neprobiha zadne mereni')
-
-	return render_template('mereni_start.html', text='Probiha mereni')
-
-@app.route('/mereni_start', methods=['POST'])
-def get_mereni_start_button():
-	global measure_proc
-	actual_time="Mereni zastaveno "
-	actual_time += mylibrary.get_actual_time()
+		measure_start_date = "Mereni probiha od "
+		measure_start_date += mylibrary.get_actual_time()
 	
-	#stop measurement
-	if not measure_proc is None:
+		#run measurement
+		measure_proc = subprocess.Popen(['python3', 'measure.py'])
+		return render_template('mereni.html', text=measure_start_date, button='Stop')
+	else:
+		measure_start_date = "Mereni zastaveno "
+		measure_start_date += mylibrary.get_actual_time()
+		
+		#stop measurement
 		measure_proc.terminate()
-		return render_template('mereni_start.html', text=actual_time)
-	return render_template('mereni_start.html', text='Neprobiha zadne mereni')
+		measure_proc = None
+		return render_template('mereni.html', text=measure_start_date, button='Start')
 
-@app.route('/mereni_stop')
-def get_mereni_stop():
-	global measure_proc
 
-	if measure_proc is None:
-		return render_template('mereni_stop.html', text="Neprobiha zadne mereni")
-
-	return render_template('mereni_stop.html', text="Probiha mererni")
-
-@app.route('/mereni_stop', methods=['POST'])
-def get_mereni_stop_button():
-	global measure_proc
-	actual_time = "Mereni spusteno "
-	actual_time += mylibrary.get_actual_time()
-	
-	#run measurement
-	measure_proc = subprocess.Popen(['python3', 'measure.py'])
-	return render_template('mereni_stop.html', text=actual_time)
 
 @app.route('/measures')
 @app.route('/measures/<sub_dir>')
@@ -88,4 +87,7 @@ def return_file(sub_dir, file_name):
 
 @app.route('/graph')
 def get_graph():
-    return render_template("graph.html")
+    labels = ["January","February","March","April","May","June","July","August"]
+    values = [10,9,8,7,6,4,7,8]
+ 
+    return render_template("graph.html", values=values, labels=labels)

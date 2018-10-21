@@ -2,14 +2,12 @@
 <head>
   <title>Kouzelna krabicka</title>
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-  <script type="text/javascript" src="{{ url_for('static', filename='highstock.js') }}"></script>
 </head>
 
 <body>
   <div class=menu>
     <a href={{ url_for('get_index') }}>Hlavni stranka</a><br>
-    <a href={{ url_for('get_mereni_start') }}>Mereni Start</a><br>
-    <a href={{ url_for('get_mereni_stop') }}>Mereni Stop</a><br>
+    <a href={{ url_for('get_mereni') }}>Mereni</a><br>
     <a href={{ url_for('get_directory') }}>Soubory</a><br>
     <a href={{ url_for('get_graph') }}>Graf</a><br>
  </div>
