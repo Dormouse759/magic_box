@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>Soubory</h1>
+<p>Cesta: {{ path }}</p>
+{% for item in files %}
+	{% if sub_dir == None %}
+		<a href={{ url_for('get_directory', sub_dir=item) }}>{{ item }}</a><br>
+	{% else %}
+		<a href={{ url_for('get_directory', sub_dir=sub_dir, file_name=item) }}>{{ item }}</a>
+		 - <a href={{ url_for('return_file', sub_dir=sub_dir, file_name=item) }}><button>Stahnout</button></a><br>
+	{% endif %}	
+{% endfor %}
+
+{% endblock %}

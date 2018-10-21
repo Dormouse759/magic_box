@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>Mereni</h1>
+<p>{{ text }}</p>
+<form action="{{url_for('get_mereni_stop_button')}}" method="POST" class=measure>
+<p>zacit merit: 
+<input type="submit" name="start-measurement" value="Start"></p>
+</form>
+{% endblock %}
