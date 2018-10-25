@@ -18,6 +18,11 @@ def convert_to_date(timestamp):
 	date = date.strftime("%d-%m-%Y_%H:%M:%S")
 	return date
 
+def get_date_name():
+	now = datetime.datetime.now()
+	now = now.strftime("%d%m%Y-%H%M%S")
+	return now
+
 def init_var():
 	path = os.path.join(os.getcwd(), "measures")
 	file_list = os.listdir(path)
